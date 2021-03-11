@@ -381,7 +381,31 @@ exports.loginHandle = (req, res, next) => {
         successRedirect: '/dashboard',
         failureRedirect: '/auth/login',
         failureFlash: true
-    })(req, res, next);
+    },
+    (err, user, info) => {
+        if (err)
+          return next(err);
+    
+        if (!user) {
+          res.statusCode = 401;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({success: false, status: 'Login Unsuccessful!', err: info});
+        }
+        req.logIn(user, (err) => {
+          if (err) {
+            res.statusCode = 401;
+            res.setHeader('Content-Type', 'application/json');
+            res.json({success: false, status: 'Login Unsuccessful!', err: 'Could not log in user!'});          
+          }
+    
+          var token = jwt.sign(user, config.secretKey, {expiresIn: 3600});
+          res.statusCode = 200;
+          res.setHeader('Content-Type', 'application/json');
+          res.json({success: true, status: 'Login Successful!', token: token});
+        }); 
+      }
+      )(req, res, next);
+
 }
 
 //------------ Logout Handle ------------//
@@ -390,3 +414,17 @@ exports.logoutHandle = (req, res) => {
     req.flash('success_msg', 'You are logged out');
     res.redirect('/auth/login');
 }
+
+//------------ Session Verifier ------------//
+exports.verifyUser = passport.authenticate('local', {session: false});
+
+//------------ Verify Admin permission ------------//
+exports.verifyAdmin = function(req,res,next){
+    if(req.user.role !== true)  {
+        var err = new Error('You are not an admin!');
+        err.status = 403;
+        next(err);
+    }else {
+        return next();
+    }
+};

@@ -21,6 +21,16 @@ const UserSchema = new mongoose.Schema({
   resetLink: {
     type: String,
     default: ''
+  },
+  role: {
+    type: String,
+    default: 'admin',
+    others: [
+      'admin',
+      'athlete',
+      'coach',
+      'institution'
+    ]
   }
 }, { timestamps: true });
 

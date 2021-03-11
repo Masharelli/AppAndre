@@ -52,6 +52,7 @@ app.use(function(req, res, next) {
 //------------ Routes ------------//
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
+app.use('/sports', require('./routes/sports'));
 
 const PORT = process.env.PORT || 3006;
 
