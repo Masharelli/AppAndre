@@ -4,8 +4,21 @@ const mongoose = require('mongoose');
 const flash = require('connect-flash');
 const session = require('express-session');
 const passport = require('passport');
+//Cors///
+
 
 const app = express();
+
+// Configuracion Cors //
+
+const cors = require('cors');
+
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
 
 //------------ Passport Configuration ------------//
 require('./config/passport')(passport);
@@ -25,7 +38,7 @@ app.set('view engine', 'ejs');
 
 //------------ Bodyparser Configuration ------------//
 app.use(express.urlencoded({ extended: false }))
-
+app.use(express.json());
 //------------ Express session Configuration ------------//
 app.use(
     session({
@@ -53,6 +66,6 @@ app.use(function(req, res, next) {
 app.use('/', require('./routes/index'));
 app.use('/auth', require('./routes/auth'));
 
-const PORT = process.env.PORT || 3006;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, console.log(`Server running on PORT ${PORT}`));

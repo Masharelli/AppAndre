@@ -4,91 +4,56 @@ import {useDispatch} from 'react-redux';
 import {createUser} from '../../actions/users.js'
 
 function Register() {
-    const [postData, setPostData] = useState({ name: '', lastname: '', email: '', username: '', password: '', img: '' });
+    const [postData, setPostData] = useState({ name: '', email: '', password: '', password2: ''});
 
     const dispatch = useDispatch();
 
 
     const handleSubmit = (e) => {
-
         e.preventDefault();
 
         dispatch(createUser(postData));
     }
     return (
-<div className="container-fluid w-100 h-75 login-BG  d-flex">
-            <div className="admin-card align-self-center p-3">
+        <div className="container-fluid w-100 h-75 login-BG  d-flex">
+            <div className="admin-card align-self-center p-3 pt-5">
                 <h1 className="centered colorB font-weight-bolder" >Crear una Cuenta</h1>
                 <br/>
-                {/*
-                <form action="">
-                    <div className="row input-row">
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="Nombre"/>
+                <hr className="login-spacing"/>
+                    <form autoComplete="off" noValidate onSubmit={handleSubmit} method="POST">
+                        <div className="row centered">
+                            <div className="col-lg-6 col-md-12 col-12 py-3">
+                                <input className="register-form-input centered w-100" type="name" name="name" variant="outlined" placeholder="Nombre"  value={postData.name} onChange={(e)=> setPostData({ ...postData, name: e.target.value})}/>
+                            </div>
+                            <div className="col-lg-6 col-md-12 col-12 py-3">
+                                <input className="register-form-input centered w-100" type="email" name="email" variant="outlined" placeholder="Correo"  value={postData.email} onChange={(e)=> setPostData({ ...postData, email: e.target.value})}/>
+                            </div>
                         </div>
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="Apellido"/>
+                        <div className="row centered">
+                            <div className="col-lg-6 col-md-12 col-12 py-3">
+                                <input className="register-form-input centered w-100" name="password" type="password" variant="outlined" placeholder="Contraseña"  value={postData.password} onChange={(e)=> setPostData({ ...postData, password: e.target.value})}/>
+                            </div>
+                            <div className="col-lg-6 col-md-12 col-12 py-3">
+                                <input className="register-form-input centered w-100" name="password2" type="password2" variant="outlined" placeholder="Confirmar Contraseña"  value={postData.password2} onChange={(e)=> setPostData({ ...postData, password2: e.target.value})}/>
+                            </div>
                         </div>
-                    </div>
-                    <div className="row input-row">
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="Correo Electrónico"/>
+                        <div className="row py-3">
+                            <button className="contact-button centered" type="submit">Registrarme</button>
                         </div>
-                    </div>
-                    <div className="row input-row">
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="Nombre de Usuario"/>
-                        </div>
-                        <div className="col">
-                            <input type="date" className="register-form-input centered w-100" placeholder="Fecha de Nacimiento"/>
-                        </div>
-                    </div>
-                    <div className="row input-row">
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="Nacionalidad"/>
-                        </div>
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="País de Residencia"/>
-                        </div>
-                    </div>
-                    <div className="row input-row">
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="Contraseña"/>
-                        </div>
-                        <div className="col">
-                            <input type="text" className="register-form-input centered w-100" placeholder="Confirmar Contraseña"/>
-                        </div>
-                    </div>
+                            
+                            {/*
+                            <input type="text" name="lastname" variant="outlined" placeholder="Apellido"  value={postData.lastname} onChange={(e)=> setPostData({ ...postData, lastname: e.target.value})}/>
+                            <input type="text" name="username" variant="outlined" placeholder="Nombre de Usuario"  value={postData.username} onChange={(e)=> setPostData({ ...postData, username: e.target.value})}/>
 
-                    <hr className=""/>
-
-                    <div className="row">
-                        <Link className="register-link contact-button centered" to="/welcome">Registrarme</Link>
-                    </div>
-                   
-                </form>
-                */}
-                <Paper>
-                    <form autoComplete="off" noValidate onSubmit={handleSubmit} >
-                        <Typography variant="h6">Registro de Usuario</Typography>
-                        <input type="text" name="name" variant="outlined" placeholder="Nombre"  value={postData.name} onChange={(e)=> setPostData({ ...postData, name: e.target.value})}/>
-                        <input type="text" name="lastname" variant="outlined" placeholder="Apellido"  value={postData.lastname} onChange={(e)=> setPostData({ ...postData, lastname: e.target.value})}/>
-                        <input type="text" name="email" variant="outlined" placeholder="Correo"  value={postData.email} onChange={(e)=> setPostData({ ...postData, email: e.target.value})}/>
-                        <input type="text" name="username" variant="outlined" placeholder="Nombre de Usuario"  value={postData.username} onChange={(e)=> setPostData({ ...postData, username: e.target.value})}/>
-                        <input name="password" type="password" variant="outlined" placeholder="Contraseña"  value={postData.password} onChange={(e)=> setPostData({ ...postData, password: e.target.value})}/>
-                        {/*
-                            Input para imagen
-                            <FileBase 
-                                type="file" 
-                                name="img"
-                                multiple={false}  
-                                onDone={({base64}) => setPostData({...postData, img: base64 })}    
-                            />
-                        */}
-
-                        <Button className="contact-button centered" size="large" type="submit">Registrarme</Button>
+                                Input para imagen
+                                <FileBase 
+                                    type="file" 
+                                    name="img"
+                                    multiple={false}  
+                                    onDone={({base64}) => setPostData({...postData, img: base64 })}    
+                                />
+                            */}
                     </form>
-                </Paper>
             </div>
         </div>
     )

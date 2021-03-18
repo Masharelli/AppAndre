@@ -1,9 +1,20 @@
 import React from 'react'
 import {Link} from 'react-router-dom'
+import {useDispatch} from 'react-redux';
 
 function Login() {
 
+    /*
+    const dispatch = useDispatch();
 
+
+    const handleSubmit = (e) => {
+
+        e.preventDefault();
+
+        dispatch(createUser(postData));
+    }
+    */
     return (
         
         <div className="container-fluid w-100 h-75 login-BG  d-flex">
@@ -11,17 +22,17 @@ function Login() {
             <div className="admin-card align-self-center">
                 <h1 className="centered colorB font-weight-bolder" >Login</h1>
                 <br/>
-                <form action="">
+                <form action="/auth/login" method="POST">
                     <div className="row input-row">
-                        <input id="userName" type="text" className="contact-form-input centered" placeholder="Usuario"/>
+                        <input type="email" id="email" name="email" className="contact-form-input centered" placeholder="Correo"/>
                     </div>
                     <br/>
                     <div className="row input-row">
-                        <input type="text" className="contact-form-input centered" placeholder="Contraseña"/>
+                        <input type="password" id="password" name="password" className="contact-form-input centered" placeholder="Contraseña"/>
                     </div>
                     <br/>
                     <div className="row input-row">
-                        <Link className="centered contact-button" to="/dashboard">Ingresar</Link>
+                        <button type="submit" className="centered contact-button">Ingresar</button>
                     </div>
                     <hr className="login-spacing"/>
                     <div className="row">

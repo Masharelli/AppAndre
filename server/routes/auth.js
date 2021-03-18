@@ -17,8 +17,9 @@ router.get('/reset/:id', (req, res) => {
 });
 
 //------------ Register Route ------------//
+/*
 router.get('/register', (req, res) => res.render('register'));
-
+*/
 //------------ Register POST Handle ------------//
 router.post('/register', authController.registerHandle);
 

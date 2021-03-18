@@ -1,7 +1,10 @@
 import axios from 'axios';
 
-const url = 'http://localhost:5000/users';
+const url = 'http://localhost:5000';
 
+/*
 export const fetchUsers = () => axios.get(url);
-
-export const createUser = (newUser) => axios.post(url, newUser);
+*/
+/*
+export const createUser = (newUser) => axios.post(url + '/auth/register', newUser);
+*/

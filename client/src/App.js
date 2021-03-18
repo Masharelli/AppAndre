@@ -22,16 +22,11 @@ import Settings from './components/WebApp/Settings';
 import AdminLayout from './components/Admin/AdminLayout';
 import Users from './components/WebApp/Users';
 import { useDispatch } from 'react-redux';
-import { getUsers } from './actions/users';
+
 import AdminDashboard from './components/Admin/AdminDashboard';
 
 function App() {
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-      dispatch(getUsers());
-  }, [dispatch]);
 
   return (
       <Router>
@@ -40,8 +35,11 @@ function App() {
                   <RouteWithLayout exact path="/" layout={Layout} component={Index}/>
                   <RouteWithLayout exact path="/about-us" layout={Layout} component={AboutUs} />
                   <RouteWithLayout exact path="/contact" layout={Layout} component={Contact} />
-                  <RouteWithLayout exact path="/login" layout={Layout} component={() => <Login/>}/>
+                  <RouteWithLayout exact path="/login" layout={Layout} component={Login} />
                   <RouteWithLayout exact path="/register" layout={Layout} component={Register} />
+
+                  {/* === WEB APP === */}
+
                   <RouteWithLayout exact path="/welcome" layout={WebAppLayout} component={Welcome} />
                   <RouteWithLayout exact path="/dashboard" layout={WebAppLayout} component={Dashboard} />
                   <RouteWithLayout exact path="/profile" layout={WebAppLayout} component={Profile} />
@@ -51,11 +49,13 @@ function App() {
                   <RouteWithLayout exact path="/statistics" layout={WebAppLayout} component={Stats} />
                   <RouteWithLayout exact path="/settings" layout={WebAppLayout} component={Settings} />
                   <RouteWithLayout exact path="/users" layout={WebAppLayout} component={Users} />
+
+                  {/* === ADMIN === */}
+                  
                   <RouteWithLayout exact path="/admin/dashboard" layout={AdminLayout} component={AdminDashboard} />
                   <RouteWithLayout exact path="/admin/users" layout={AdminLayout} component={AdminDashboard} />
                   <RouteWithLayout exact path="/admin/tests" layout={AdminLayout} component={AdminDashboard} />   
             </Switch> 
-        
       </Router>
   );
 }

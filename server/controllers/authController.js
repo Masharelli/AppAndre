@@ -12,7 +12,9 @@ const User = require('../models/User');
 
 //------------ Register Handle ------------//
 exports.registerHandle = (req, res) => {
+    console.log(req.body);
     const { name, email, password, password2 } = req.body;
+
     let errors = [];
 
     //------------ Checking required fields ------------//
@@ -31,26 +33,33 @@ exports.registerHandle = (req, res) => {
     }
 
     if (errors.length > 0) {
-        res.render('register', {
+        /*
+        res.render('http://localhost:3000/register', {
             errors,
             name,
             email,
             password,
             password2
         });
+        */
+        console.log(errors)
+        res.send(errors);
     } else {
         //------------ Validation passed ------------//
         User.findOne({ email: email }).then(user => {
             if (user) {
                 //------------ User already exists ------------//
                 errors.push({ msg: 'Email ID already registered' });
-                res.render('register', {
+                /*
+                res.render('http://localhost:3000/register', {
                     errors,
                     name,
                     email,
                     password,
                     password2
                 });
+                */
+                res.send(errors);
             } else {
 
                 const oauth2Client = new OAuth2(
@@ -68,9 +77,10 @@ exports.registerHandle = (req, res) => {
                 const CLIENT_URL = 'http://' + req.headers.host;
 
                 const output = `
-                <h2>Please click on below link to activate your account</h2>
-                <p>${CLIENT_URL}/auth/activate/${token}</p>
-                <p><b>NOTE: </b> The above activation link expires in 30 minutes.</p>
+                <h2>Da click </h2>
+                <a href="${CLIENT_URL}/auth/activate/${token}">AQUI</a>
+                <h2>para activar tu cuenta :) </h2>
+                <p><b>NOTE: </b> Este link de activación vencerá en 30 minutos.</p>
                 `;
 
                 const transporter = nodemailer.createTransport({
@@ -87,9 +97,9 @@ exports.registerHandle = (req, res) => {
 
                 // send mail with defined transport object
                 const mailOptions = {
-                    from: '"Auth Admin" <nodejsa@gmail.com>', // sender address
+                    from: '"Tweak" <nodejsa@gmail.com>', // sender address
                     to: email, // list of receivers
-                    subject: "Account Verification: NodeJS Auth ✔", // Subject line
+                    subject: "Verificación de Cuenta :)", // Subject line
                     generateTextFromHTML: true,
                     html: output, // html body
                 };
@@ -101,7 +111,7 @@ exports.registerHandle = (req, res) => {
                             'error_msg',
                             'Something went wrong on our end. Please register again.'
                         );
-                        res.redirect('/auth/login');
+                        res.send(error);
                     }
                     else {
                         console.log('Mail sent : %s', info.response);
@@ -109,7 +119,7 @@ exports.registerHandle = (req, res) => {
                             'success_msg',
                             'Activation link sent to email ID. Please activate to log in.'
                         );
-                        res.redirect('/auth/login');
+                        res.send('Success');
                     }
                 })
 
@@ -129,7 +139,7 @@ exports.activateHandle = (req, res) => {
                     'error_msg',
                     'Incorrect or expired link! Please register again.'
                 );
-                res.redirect('/auth/register');
+                res.send(err);
             }
             else {
                 const { name, email, password } = decodedToken;
@@ -140,7 +150,7 @@ exports.activateHandle = (req, res) => {
                             'error_msg',
                             'Email ID already registered! Please log in.'
                         );
-                        res.redirect('/auth/login');
+                        res.send('Email already registered');
                     } else {
                         const newUser = new User({
                             name,
@@ -159,7 +169,7 @@ exports.activateHandle = (req, res) => {
                                             'success_msg',
                                             'Account activated. You can now log in.'
                                         );
-                                        res.redirect('/auth/login');
+                                        res.send('Account activated!');
                                     })
                                     .catch(err => console.log(err));
                             });
